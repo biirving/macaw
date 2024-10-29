@@ -7,12 +7,14 @@ TASK_CONFIG=$3
 MACAW_PARAMS=$4
 if [ -z $5 ]
 then
+    echo "No override given"
     MACAW_OVERRIDE_PARAMS="config/alg/overrides/no_override.json"
 else
+    echo "override"
     MACAW_OVERRIDE_PARAMS=$5
 fi
 
-CMD="python -u -m run --device cuda:0 --name $NAME --log_dir $LOG_DIR --task_config $TASK_CONFIG --macaw_params $MACAW_PARAMS --macaw_override_params $MACAW_OVERRIDE_PARAMS"
+CMD="python -u -m run --device cpu:0 --name $NAME --log_dir $LOG_DIR --task_config $TASK_CONFIG --macaw_params $MACAW_PARAMS --macaw_override_params $MACAW_OVERRIDE_PARAMS"
 
 echo "***************************************************"
 echo "***************************************************"

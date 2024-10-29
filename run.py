@@ -9,11 +9,14 @@ import torch
 from collections import namedtuple
 import json
 
+import sys
+
+# Loading random params environment
+sys.path.append('/Users/benjaminirving/Desktop/mlWalk/macaw/rand_param_envs')
+
 from src.envs import HalfCheetahDirEnv, HalfCheetahVelEnv, AntDirEnv, AntGoalEnv, HumanoidDirEnv, WalkerRandParamsWrappedEnv, ML45Env
 from src.macaw import MACAW
 from src.args import get_args
-
-    
 
 def get_gym_env(env: str):
     if env == 'ant':
@@ -60,7 +63,7 @@ def run(args: argparse.Namespace, instance_idx: int = 0):
     random.seed(seed)
     np.random.seed(seed)
     torch.manual_seed(seed)
-    torch.cuda.manual_seed(seed)
+    #torch.cuda.manual_seed(seed)
 
     if task_config.env == 'ant_dir':
         env = AntDirEnv(tasks, args.n_tasks, include_goal = args.include_goal or args.multitask)
@@ -87,7 +90,7 @@ def run(args: argparse.Namespace, instance_idx: int = 0):
     random.seed(seed)
     np.random.seed(seed)
     torch.manual_seed(seed)
-    torch.cuda.manual_seed(seed)
+    #torch.cuda.manual_seed(seed)
 
     model = MACAW(args, task_config, env, args.log_dir, name, training_iterations=args.train_steps,
                   visualization_interval=args.vis_interval, silent=instance_idx > 0, instance_idx=instance_idx,

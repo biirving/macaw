@@ -81,7 +81,11 @@ class MACAW(object):
 
         check_config(task_config)
         goal_dim = task_config.total_tasks if args.multitask else 0
-        self._observation_dim = env.observation_space.shape[0] + (args.trim_obs if args.trim_obs else 0) - goal_dim
+        if args.extra_dim:
+            extra_dim = args.extra_dim
+        else:
+            extra_dim = 0
+        self._observation_dim = env.observation_space.shape[0] + (args.trim_obs if args.trim_obs else 0) - goal_dim + extra_dim
         self._action_dim = env_action_dim(env)
 
         policy_head = [32, 1] if args.advantage_head_coef is not None else None
@@ -234,7 +238,7 @@ class MACAW(object):
         env.seed(self._env_seeds[self._rollout_counter].item())
         self._rollout_counter += 1
         trajectory = []
-        state = env.reset()
+        state, _ = env.reset()
         if self._args.trim_obs is not None:
             state = np.concatenate((state, np.zeros((self._args.trim_obs,))))
         if render:

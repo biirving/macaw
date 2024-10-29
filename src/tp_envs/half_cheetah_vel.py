@@ -2,6 +2,7 @@ import numpy as np
 
 from . import register_env
 from src.tp_envs.half_cheetah import HalfCheetahEnv
+from gym.utils import seeding
 
 
 @register_env('cheetah-vel')
@@ -61,3 +62,7 @@ class HalfCheetahVelEnv(HalfCheetahEnv):
         self._goal_vel = self._task['velocity']
         self._goal = self._goal_vel
         self.reset()
+
+    def seed(self, seed=None):
+        self.np_random, seed = seeding.np_random(seed)
+        return [seed]
